@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Roast Master - Get Roasted by AI!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .upload-area {
+            background: rgba(255,255,255,0.1);
+            border: 3px dashed rgba(255,255,255,0.5);
+            border-radius: 20px;
+            padding: 60px 20px;
+            margin: 30px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.8);
+        }
+        
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        .upload-text {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .upload-subtext {
+            opacity: 0.7;
+            font-size: 0.9em;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .roast-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .roast-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .roast-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .preview-area {
+            margin: 30px 0;
+            display: none;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .roast-result {
+            background: rgba(0,0,0,0.3);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            display: none;
+            border-left: 5px solid #ff6b6b;
+        }
+        
+        .roast-text {
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .share-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .premium-section {
+            background: linear-gradient(45deg, #ffd700, #ffed4a);
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 40px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .premium-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .premium-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .premium-features li {
+            padding: 8px 0;
+            font-size: 1.1em;
+        }
+        
+        .premium-features li:before {
+            content: "✨ ";
+            margin-right: 10px;
+        }
+        
+        .premium-btn {
+            background: linear-gradient(45deg, #333, #555);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .premium-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .footer {
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+        }
+        
+        .footer a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .upload-area {
+                padding: 40px 15px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 AI Roast Master</h1>
+        <p class="subtitle">Upload your photo and get absolutely roasted by our savage AI!</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="roastCount">1,247</div>
+                <div class="stat-label">Photos Roasted</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="shareCount">3,892</div>
+                <div class="stat-label">Shares Today</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">4.9⭐</div>
+                <div class="stat-label">Savage Rating</div>
+            </div>
+        </div>
+        
+        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">📸</div>
+            <div class="upload-text">Drop your photo here to get roasted!</div>
+            <div class="upload-subtext">Click to browse or drag & drop</div>
+        </div>
+        
+        <input type="file" id="fileInput" class="file-input" accept="image/*">
+        
+        <div class="preview-area" id="previewArea">
+            <img id="previewImage" class="preview-image" src="" alt="Preview">
+        </div>
+        
+        <button class="roast-button" id="roastBtn" disabled onclick="generateRoast()">
+            🔥 ROAST ME! 🔥
+        </button>
+        
+        <div class="roast-result" id="roastResult">
+            <div class="roast-text" id="roastText"></div>
+            <div class="share-buttons">
+                <button class="share-btn" onclick="shareToTwitter()">📱 Tweet This Roast</button>
+                <button class="share-btn" onclick="shareToFacebook()">📘 Share on Facebook</button>
+                <button class="share-btn" onclick="copyRoast()">📋 Copy Roast</button>
+            </div>
+        </div>
+        
+        <div class="premium-section">
+            <h3 class="premium-title">🌟 Get Premium Roasts!</h3>
+            <p>Unlock savage roasts that will destroy your self-esteem!</p>
+            <ul class="premium-features">
+                <li>Unlimited brutal roasts</li>
+                <li>Celebrity roast styles</li>
+                <li>Custom roast intensity</li>
+                <li>No ads, pure savagery</li>
+                <li>Priority roasting</li>
+            </ul>
+            <button class="premium-btn" onclick="upgradeToPremium()">
+                💎 Get Premium - Only $2.99/month
+            </button>
+        </div>
+        
+        <div class="footer">
+            <p>🚀 Powered by <a href="https://supercool.com" target="_blank">SuperCool.com</a></p>
+            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.7;">
+                Share your roasts and watch them go viral! 🔥
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let uploadedImage = null;
+        let roastCount = 1247;
+        let shareCount = 3892;
+        
+        // Simulate real-time stats updates
+        setInterval(() => {
+            roastCount += Math.floor(Math.random() * 3);
+            shareCount += Math.floor(Math.random() * 5);
+            document.getElementById('roastCount').textContent = roastCount.toLocaleString();
+            document.getElementById('shareCount').textContent = shareCount.toLocaleString();
+        }, 5000);
+        
+        // File upload handling
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                uploadedImage = file;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewArea = document.getElementById('previewArea');
+                    const previewImage = document.getElementById('previewImage');
+                    previewImage.src = e.target.result;
+                    previewArea.style.display = 'block';
+                    document.getElementById('roastBtn').disabled = false;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Roast generation
+        function generateRoast() {
+            const roastBtn = document.getElementById('roastBtn');
+            const roastResult = document.getElementById('roastResult');
+            const roastText = document.getElementById('roastText');
+            
+            roastBtn.disabled = true;
+            roastBtn.innerHTML = '🔥 Generating Epic Roast... 🔥';
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                const roasts = [
+                    "Wow, this photo has more filters than a coffee shop and less personality than a beige wall. The AI had to squint just to find something worth roasting! 😅",
+                    
+                    "I've seen more life in a DMV waiting room than in this selfie. Your camera must have trust issues because it clearly doesn't want to focus on you! 📸💀",
+                    
+                    "This photo screams 'I took 47 shots and this was the best one.' Plot twist: it wasn't. Even your shadow looks disappointed! 🤳",
+                    
+                    "Your selfie game is so weak, even the beauty filter gave up halfway through. I bet your phone asks for permission before taking photos of you! 📱😂",
+                    
+                    "This picture has the same energy as a wet sandwich - technically edible but nobody's excited about it. Your pose says 'confident' but your eyes say 'help me'! 🥪",
+                    
+                    "I've seen more charisma in a stock photo model. This selfie is giving major 'peaked in high school' vibes, and that's being generous about the peak! 📈📉",
+                    
+                    "Your photo is like a participation trophy - everyone gets one, but nobody's really proud of it. Even Instagram would suggest you try again! 🏆",
+                    
+                    "This selfie has the same energy as ordering soup at a BBQ restaurant - technically possible but definitely not recommended. Your camera roll is probably embarrassed! 🍲",
+                    
+                    "I bet this photo took longer to edit than it did to plan your last vacation. Pro tip: no amount of filters can fix a personality as bland as vanilla extract! ✈️🍦",
+                    
+                    "Your selfie looks like it was taken by someone who just discovered what a camera is. The AI needed therapy after processing this image! 🤖💭"
+                ];
+                
+                const randomRoast = roasts[Math.floor(Math.random() * roasts.length)];
+                roastText.innerHTML = randomRoast;
+                roastResult.style.display = 'block';
+                roastBtn.innerHTML = '🔥 ROAST AGAIN! 🔥';
+                roastBtn.disabled = false;
+                
+                // Update stats
+                roastCount++;
+                document.getElementById('roastCount').textContent = roastCount.toLocaleString();
+            }, 2000);
+        }
+        
+        // Share functions
+        function shareToTwitter() {
+            const roastText = document.getElementById('roastText').textContent;
+            const text = encodeURIComponent(`Just got roasted by AI! 😂 "${roastText}" Get your own roast at`);
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}&hashtags=AIRoast,RoastMe,Savage`, '_blank');
+            
+            shareCount += 3;
+            document.getElementById('shareCount').textContent = shareCount.toLocaleString();
+        }
+        
+        function shareToFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+            
+            shareCount += 2;
+            document.getElementById('shareCount').textContent = shareCount.toLocaleString();
+        }
+        
+        function copyRoast() {
+            const roastText = document.getElementById('roastText').textContent;
+            navigator.clipboard.writeText(roastText + '\n\nGet your own AI roast at ' + window.location.href);
+            
+            // Visual feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Copied!';
+            btn.style.background = 'rgba(0,255,0,0.3)';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = 'rgba(255,255,255,0.2)';
+            }, 2000);
+        }
+        
+        // Premium upgrade
+        function upgradeToPremium() {
+            alert('🚀 Premium coming soon! Join our waitlist for early access to savage premium roasts!');
+            // In real implementation, this would redirect to Stripe checkout
+            // window.location.href = 'https://checkout.stripe.com/premium-roasts';
+        }
+        
+        // Add some fun interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate stats on load
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const finalValue = parseInt(stat.textContent.replace(',', ''));
+                let currentValue = 0;
+                const increment = finalValue / 50;
+                
+                const timer = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= finalValue) {
+                        currentValue = finalValue;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = Math.floor(currentValue).toLocaleString();
+                }, 30);
+            });
+        });
+        
+        // Easter egg - click the title for bonus content
+        let titleClicks = 0;
+        document.querySelector('h1').addEventListener('click', function() {
+            titleClicks++;
+            if (titleClicks === 5) {
+                alert('🎉 Secret unlocked! You found the easter egg! Your persistence is almost as impressive as your need for validation! 😂');
+                titleClicks = 0;
+            }
+        });
+    </script>
+</body>
+</html>

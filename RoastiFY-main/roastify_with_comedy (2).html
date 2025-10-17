@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoastiFY - AI Roast Generator & Comedy Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 5px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            box-shadow: 0 4px 15px rgba(255,107,107,0.4);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .tab-content {
+            display: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .roast-section {
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            text-align: center;
+        }
+
+        .roast-btn {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            border: none;
+            color: white;
+            padding: 18px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255,107,107,0.4);
+            margin: 20px 0;
+        }
+
+        .roast-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,107,107,0.6);
+        }
+
+        .roast-output {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 25px;
+            min-height: 120px;
+            border-left: 5px solid #FFD700;
+        }
+
+        .comedy-section {
+            text-align: center;
+        }
+
+        .comedy-intro {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: #FFD700;
+        }
+
+        .comedian-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .comedian-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .comedian-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .comedian-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #FF6B6B, #FFD700);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .youtube-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .youtube-embed {
+            position: relative;
+            width: 100%;
+            height: 450px;
+        }
+
+        .youtube-embed iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .playlist-info {
+            padding: 20px;
+            background: rgba(0,0,0,0.7);
+            text-align: center;
+        }
+
+        .engagement-note {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 15px;
+            font-style: italic;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                margin: 5px 0;
+                width: 200px;
+            }
+            
+            .youtube-embed {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔥 RoastiFY</div>
+            <div class="tagline">AI-Powered Roasts & Premium Comedy Content</div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('roast')">🎯 Get Roasted</button>
+            <button class="tab-btn" onclick="showTab('comedy')">😂 Comedy Hub</button>
+            <button class="tab-btn" onclick="showTab('features')">✨ Features</button>
+        </div>
+
+        <div id="roast" class="tab-content active">
+            <div class="roast-section">
+                <h2>Get Your Personalized AI Roast!</h2>
+                <p style="margin-bottom: 30px;">Enter your details and prepare to get absolutely demolished... with love! 💀</p>
+                
+                <div class="input-group">
+                    <label for="targetName">Target's Name:</label>
+                    <input type="text" id="targetName" placeholder="Who's getting roasted today?">
+                </div>
+
+                <div class="input-group">
+                    <label for="roastStyle">Roast Style:</label>
+                    <select id="roastStyle">
+                        <option value="savage">🔥 Savage & Brutal</option>
+                        <option value="witty">🧠 Witty & Clever</option>
+                        <option value="friendly">😊 Friendly Banter</option>
+                        <option value="professional">💼 Professional Shade</option>
+                        <option value="celebrity">⭐ Celebrity Style</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="personalTrait">Notable Trait/Hobby:</label>
+                    <input type="text" id="personalTrait" placeholder="What makes them an easy target?">
+                </div>
+
+                <button class="roast-btn" onclick="generateRoast()">🔥 ROAST THEM! 🔥</button>
+
+                <div id="roastResult" class="roast-output">
+                    <em>Your devastating roast will appear here... Prepare for carnage! 💀</em>
+                </div>
+            </div>
+        </div>
+
+        <div id="comedy" class="tab-content">
+            <div class="comedy-section">
+                <h2>🎭 Premium Comedy Content</h2>
+                <div class="comedy-intro">
+                    Enjoy hours of premium comedy content featuring the best roasters in the business!
+                </div>
+
+                <div class="comedian-showcase">
+                    <div class="comedian-card">
+                        <div class="comedian-avatar">SG</div>
+                        <h3>Shane Gillis</h3>
+                        <p>Raw, unfiltered comedy gold</p>
+                    </div>
+                    <div class="comedian-card">
+                        <div class="comedian-avatar">TH</div>
+                        <h3>Tony Hinchcliffe</h3>
+                        <p>Master of the roast battle</p>
+                    </div>
+                    <div class="comedian-card">
+                        <div class="comedian-avatar">JR</div>
+                        <h3>Joe Rogan</h3>
+                        <p>Podcast legend & comedy icon</p>
+                    </div>
+                </div>
+
+                <div class="youtube-container">
+                    <div class="youtube-embed">
+                        <!-- Shane Gillis Comedy Playlist - Auto-play enabled -->
+                        <iframe 
+                            src="https://www.youtube.com/embed/videoseries?list=PLrAXtmRdnEQydD9NKLKCL9mFT3PBmH2KH&autoplay=1&mute=0&controls=1&showinfo=1&rel=0" 
+                            title="Comedy Playlist - Shane Gillis, Tony Hinchcliffe & More"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="playlist-info">
+                        <h3>🎬 Curated Comedy Playlist</h3>
+                        <p>Auto-playing the best roasts and comedy bits</p>
+                        <div class="engagement-note">
+                            💡 Keep this tab open - the playlist continues automatically with related comedy content for maximum entertainment!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="features" class="tab-content">
+            <div class="features-section">
+                <h2>🚀 Why RoastiFY is Different</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>AI-Powered Roasts</h3>
+                        <p>Advanced AI generates personalized, creative roasts based on your inputs</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎭</div>
+                        <h3>Premium Comedy</h3>
+                        <p>Curated content from top comedians like Shane Gillis, Tony Hinchcliffe & Joe Rogan</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Mobile Optimized</h3>
+                        <p>Perfect experience on all devices with responsive design</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h3>Auto-Play Features</h3>
+                        <p>Continuous entertainment that keeps you engaged for hours</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💎</div>
+                        <h3>Multiple Styles</h3>
+                        <p>From savage burns to friendly banter - choose your roast intensity</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Instant Results</h3>
+                        <p>Get your roast in seconds with our optimized AI engine</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Roast generation function
+        function generateRoast() {
+            const name = document.getElementById('targetName').value || 'Anonymous';
+            const style = document.getElementById('roastStyle').value;
+            const trait = document.getElementById('personalTrait').value || 'their questionable life choices';
+            
+            const resultDiv = document.getElementById('roastResult');
+            resultDiv.innerHTML = '<em>🔥 Generating your roast...</em>';
+            
+            setTimeout(() => {
+                const roasts = generateRoastContent(name, style, trait);
+                const randomRoast = roasts[Math.floor(Math.random() * roasts.length)];
+                
+                resultDiv.innerHTML = `
+                    <h3>🔥 Your Roast is Ready! 🔥</h3>
+                    <p style="font-size: 1.2rem; margin: 15px 0; font-style: italic;">
+                        "${randomRoast}"
+                    </p>
+                    <button onclick="generateRoast()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 15px; cursor: pointer; margin-top: 15px;">
+                        🎲 Generate Another Roast
+                    </button>
+                `;
+            }, 1500);
+        }
+
+        function generateRoastContent(name, style, trait) {
+            const roastTemplates = {
+                savage: [
+                    `${name}, I've seen more personality in a wet paper bag. And don't get me started on ${trait} - that's not a hobby, that's a cry for help.`,
+                    `${name} really thought ${trait} would make them interesting. Spoiler alert: it didn't work.`,
+                    `If ${name} was a spice, they'd be flour. And their obsession with ${trait}? Even more bland.`,
+                    `${name}, you're like a participation trophy - nobody really wants you, but here you are anyway. At least ${trait} gives you something to do besides disappointing people.`
+                ],
+                witty: [
+                    `${name} is living proof that evolution can go in reverse. The ${trait} thing? Just confirms it.`,
+                    `I'd explain why ${name}'s passion for ${trait} is questionable, but I don't have the time or the crayons.`,
+                    `${name}, you're like a software update - nobody wants you, but we're stuck with you. The ${trait} hobby is just the cherry on top.`,
+                    `If ${name} was any more basic, they'd be a pH of 14. And ${trait}? That's just their way of reaching for mediocrity.`
+                ],
+                friendly: [
+                    `${name}, you're so dedicated to ${trait} that you make the rest of us look lazy! (And that's saying something)`,
+                    `I love how ${name} thinks ${trait} makes them unique. It's adorable, really.`,
+                    `${name}, your enthusiasm for ${trait} is... well, it's definitely enthusiasm! Can't take that away from you.`,
+                    `${name} and ${trait} - a match made in... well, somewhere. Let's go with that.`
+                ],
+                professional: [
+                    `${name}'s dedication to ${trait} shows the same attention to detail they bring to everything else... make of that what you will.`,
+                    `In a performance review, I'd rate ${name}'s ${trait} skills as "consistently meeting expectations." Which, let's be honest, isn't saying much.`,
+                    `${name} approaches ${trait} with the same strategic thinking they use in all aspects of life. The results speak for themselves.`,
+                    `If ${name}'s expertise in ${trait} was a stock, I'd recommend holding... indefinitely.`
+                ],
+                celebrity: [
+                    `${name} thinks they're the main character, but really they're more like a background extra. And ${trait}? That's their "special talent" on the casting sheet.`,
+                    `${name} has that special kind of confidence that comes from being completely unaware of reality. The ${trait} thing is just part of their "brand."`,
+                    `If ${name} was a celebrity, they'd be famous for being famous. And ${trait} would be their claim to fame on reality TV.`,
+                    `${name}'s relationship with ${trait} is like a celebrity marriage - everyone knows it won't last, but we're watching anyway.`
+                ]
+            };
+            
+            return roastTemplates[style] || roastTemplates.witty;
+        }
+
+        // Auto-engagement for comedy section
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track user engagement
+            let engagementTime = 0;
+            const startTime = Date.now();
+            
+            setInterval(() => {
+                engagementTime = Math.floor((Date.now() - startTime) / 1000);
+                // Could send analytics data here for monetization tracking
+            }, 1000);
+            
+            // Encourage users to visit comedy section
+            setTimeout(() => {
+                if (document.getElementById('roast').classList.contains('active')) {
+                    const comedyBtn = document.querySelector('[onclick="showTab(\'comedy\')"]');
+                    comedyBtn.style.animation = 'pulse 2s infinite';
+                    comedyBtn.title = 'Check out our comedy playlist! 🎭';
+                }
+            }, 30000); // After 30 seconds
+        });
+
+        // CSS for pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+                70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
